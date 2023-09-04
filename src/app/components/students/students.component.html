@@ -1,0 +1,28 @@
+<div class="flex flex-row">
+  <div class="basis-4/5 mx-auto">
+    <tui-island>
+      <p class="tui-text_h3 p-4">Students</p>
+      <table class="tui-table tui-table_layout_fixed tui-table__tr_cursor_pointer tui-table__tr_border_top">
+        <tbody>
+          <tr class="tui-table__tr">
+            <th class="tui-table__th tui-table__th_first tui-table__th_text_center tui-table__th_font-size_l">Name</th>
+            <th class="tui-table__th tui-table__th_text_center tui-table__th_font-size_l">Class</th>
+            <th class="tui-table__th tui-table__th_text_center tui-table__th_font-size_l">View Report</th>
+            <th class="tui-table__th tui-table__th_last tui-table__th_text_center tui-table__th_font-size_l">Add Report
+            </th>
+          </tr>
+          <tr class="tui-table__tr" *ngFor="let student of students">
+            <td class="tui-table__td tui-table__td_first tui-table__td_font-size_s">{{student.name}}</td>
+            <td class="tui-table__td tui-table__td_font-size_s">{{student.class}}</td>
+            <td class="tui-table__td tui-table__td_text_center"> <button appearance="accent" tuiButton size="s" icon="tuiIconCalendar">
+                View Report
+              </button></td>
+            <td class="tui-table__td tui-table__td_last tui-table__td_text_center"><button tuiButton size="s" icon="tuiIconFilePlus">
+              Add Report
+            </button></td>
+          </tr>
+        </tbody>
+      </table>
+    </tui-island>
+  </div>
+</div>
