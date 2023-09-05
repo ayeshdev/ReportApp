@@ -6,9 +6,4 @@ export interface StudentModel{
   updated:string;
   name:string;
   class:string;
-  expand:Expand;
-}
-
-export interface Expand{
-
 }

@@ -16,5 +16,12 @@ export class StudentService {
     });
     return records;
   }
+
+  // Get Student
+  async getStudent(studentId:string){
+    const pb = new PocketBase(environment.baseUrl);
+    const record: StudentModel = await pb.collection('students').getOne(studentId);
+    return record;
+  }
   constructor() { }
 }
