@@ -13,6 +13,8 @@ const routes: Routes = [
   {path:'add-report/:id',component:AddReportComponent},
   {path:'view-report/:id',component:ViewReportComponent},
   {path:'test',component:TestComponent},
+  {path:'edit-report/:id/:report_id',component:AddReportComponent},
+
 ];
 
 @NgModule({

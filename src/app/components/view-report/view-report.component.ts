@@ -1,5 +1,5 @@
 import { Component, OnInit,inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReportService } from 'src/app/services/report.service';
 import { StudentService } from 'src/app/services/student.service';
 
@@ -15,6 +15,8 @@ export class ViewReportComponent implements OnInit{
  
   activeItemIndex = NaN;
 
+  router = inject(Router);
+
   route = inject(ActivatedRoute);
   reportService = inject(ReportService);
   studentService = inject(StudentService);
@@ -24,6 +26,8 @@ export class ViewReportComponent implements OnInit{
   tagMaths = 'Maths';
   tagScience = 'Science';
   tagEnglish = 'English';
+
+  reportIdFromUrl:string = "";
 
   
   get getValues(){
@@ -55,10 +59,16 @@ export class ViewReportComponent implements OnInit{
       this.report = obj['items'];
       this.report[0].student_name = this.studentDetails.name;
 
+      this.reportIdFromUrl = this.report[0].id;
+
     } catch (error) {
       console.log(error);
       
     }
+  }
+
+  edit(reportId:string){
+    this.router.navigate([`/edit-report/${this.studentDetails.id}/${this.reportIdFromUrl}`])
   }
 
   ngOnInit(){

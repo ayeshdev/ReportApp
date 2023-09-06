@@ -25,5 +25,17 @@ export class ReportService {
     const resultList = await pb.collection('reports').getList(1,50,{filter:`student_id='${studentId}'`});
     return resultList;
   }
+
+  async getReportFromReportId(reportId:string){
+    const pb = new PocketBase(environment.baseUrl);
+    const record = await pb.collection('reports').getOne(reportId);
+    return record
+  }
+
+  async updateBook(report:ReportModel){
+    const pb = new PocketBase(environment.baseUrl);
+    const response: ReportModel = await pb.collection('reports').update(report.id,report);
+    return response;
+  }
   constructor() { }
 }

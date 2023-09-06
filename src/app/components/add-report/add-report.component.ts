@@ -19,6 +19,7 @@ export class AddReportComponent implements OnInit{
   studentDetails!:any;
   reportForm !: FormGroup;
   message:string = "";
+  action = "Add";
 
 
   //Get Contollers
@@ -29,7 +30,11 @@ export class AddReportComponent implements OnInit{
 
   //add report call method
   async onPost(){
-    await this.addReport();
+    if(this.action == "Add"){
+      await this.addReport();
+    }else{
+      this.updateReport();
+    }
   }
 
   // Add Report
@@ -49,9 +54,37 @@ export class AddReportComponent implements OnInit{
   }
 
 
+  // Update Report
+  private async updateReport(){
+    try {
+      this.message = "pending";
+      const report = this.reportForm.value as ReportModel;
+      report.student_id = this.route.snapshot.params['student_id'];
+      await this.reportService.updateBook(report);
+      this.message = "Successfully Updated!";
+    } catch (error) {
+      console.log(error);
+      this.message = "Something went wrong!";
+    }
+  }
+
+
   private async loadStudent(studentId:string){
     try {
       this.studentDetails = await this.studentService.getStudent(studentId);  
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  private async loadEditForm(reportId:string){
+    try {
+      const reportToUpdate = await this.reportService.getReportFromReportId(reportId); 
+
+      if(reportToUpdate){
+        this.reportForm.patchValue(reportToUpdate);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +102,16 @@ export class AddReportComponent implements OnInit{
     })
     
     const studentId = this.route.snapshot.params['id'];
+    const reportId = this.route.snapshot.params['report_id'];
+
+    
+
     this.loadStudent(studentId)
+
+    if(reportId){
+      this.action = "Edit";
+      this.loadEditForm(reportId);
+    }
     
   }
 }
