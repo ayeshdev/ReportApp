@@ -1,4 +1,15 @@
-<div class="flex flex-row">
+<div class="flex flex-wrap ">
+  <div class="w-full md:w-1/2 pr-4 pl-4 mx-auto">
+
+    <tui-input tuiTextfieldSize="m" tuiTextfieldIconLeft="tuiIconSearch" class="input" [tuiTextfieldCleaner]="true" [(ngModel)]="searchText">
+      Search
+    <input placeholder="Input Name" tuiTextfield />
+    </tui-input>
+
+  </div>
+</div>
+
+<div class="flex flex-row mt-4">
   <div class="basis-4/5 mx-auto">
     <tui-island>
       <p class="tui-text_h3 p-4">Students</p>
@@ -11,15 +22,17 @@
             <th class="tui-table__th tui-table__th_last tui-table__th_text_center tui-table__th_font-size_l">Add Report
             </th>
           </tr>
-          <tr class="tui-table__tr" *ngFor="let student of students">
+          <tr class="tui-table__tr" *ngFor="let student of students | search:searchText">
             <td class="tui-table__td tui-table__td_first tui-table__td_font-size_s">{{student.name}}</td>
             <td class="tui-table__td tui-table__td_font-size_s">{{student.class}}</td>
-            <td class="tui-table__td tui-table__td_text_center"> <button appearance="accent" tuiButton size="s" icon="tuiIconCalendar" routerLink="/view-report/{{student.id}}">
+            <td class="tui-table__td tui-table__td_text_center"> <button appearance="accent" tuiButton size="s"
+                icon="tuiIconCalendar" routerLink="/view-report/{{student.id}}">
                 View Report
               </button></td>
-            <td class="tui-table__td tui-table__td_last tui-table__td_text_center"><button tuiButton size="s" icon="tuiIconFilePlus" routerLink="/add-report/{{student.id}}">
-              Add Report
-            </button></td>
+            <td class="tui-table__td tui-table__td_last tui-table__td_text_center"><button tuiButton size="s"
+                icon="tuiIconFilePlus" routerLink="/add-report/{{student.id}}">
+                Add Report
+              </button></td>
           </tr>
         </tbody>
       </table>

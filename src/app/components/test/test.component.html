@@ -1,0 +1,18 @@
+<input type="text" class="border-2" [(ngModel)]="searchText">
+
+<div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of data | search:searchText">
+        <td>{{e.id}}</td>
+        <td>{{e.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

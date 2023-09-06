@@ -4,6 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { StudentsComponent } from './components/students/students.component';
 import { AddReportComponent } from './components/add-report/add-report.component';
 import { ViewReportComponent } from './components/view-report/view-report.component';
+import { TestComponent } from './components/test/test.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/home',pathMatch:'full'},
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path:'students',component:StudentsComponent},
   {path:'add-report/:id',component:AddReportComponent},
   {path:'view-report/:id',component:ViewReportComponent},
+  {path:'test',component:TestComponent},
 ];
 
 @NgModule({

@@ -11,6 +11,8 @@ export class StudentsComponent implements OnInit{
   studentService = inject(StudentService);
   students !: any;
 
+  searchText = "";
+
   //Load Students
   private async loadStudents(){
     try {
