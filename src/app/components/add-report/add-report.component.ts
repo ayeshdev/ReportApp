@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,6 +12,8 @@ import { ReportModel } from 'src/models/report.model';
   styleUrls: ['./add-report.component.less'],
 })
 export class AddReportComponent implements OnInit{
+
+  constructor(private location:Location){}
 
   formBuilder = inject(FormBuilder);
   studentService = inject(StudentService);
@@ -46,6 +49,7 @@ export class AddReportComponent implements OnInit{
       await this.reportService.addReport(report);
       this.message = "Successfully Added!";
       this.reportForm.reset();
+      this.location.back();
       
     } catch (error) {
       console.log(error);

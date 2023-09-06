@@ -2,6 +2,8 @@ import { Component, OnInit,inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReportService } from 'src/app/services/report.service';
 import { StudentService } from 'src/app/services/student.service';
+import { ReportModel } from 'src/models/report.model';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-view-report',
@@ -11,7 +13,7 @@ import { StudentService } from 'src/app/services/student.service';
 
 export class ViewReportComponent implements OnInit{
 
-  // readonly value = [90, 90, 90, 90];
+  constructor(private location:Location){}
  
   activeItemIndex = NaN;
 
@@ -29,12 +31,24 @@ export class ViewReportComponent implements OnInit{
 
   reportIdFromUrl:string = "";
 
+  reports!:any;
+
+  private async loadReports(){
+    try {
+      this.reports = await this.reportService.getReports();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   
   get getValues(){
     const value: readonly number[] = [this.report[0]['maths'],this.report[0]['science'],this.report[0]['english']];
     return value;
   }
 
+
+  //Load Report
   private async loadReport(studentId:string){
 
     try {
@@ -45,18 +59,19 @@ export class ViewReportComponent implements OnInit{
     
     try {
       this.report = await this.reportService.getReport(studentId);
-      // const props = ["page","perPage","totalItems","totalPages","items"];
 
       delete this.report['page'];
       delete this.report['perPage'];
       delete this.report['totalItems'];
       delete this.report['totalPages'];
 
+
       const obj = Object.assign({},this.report);
       Object.assign([],obj)
       Object.assign({},obj)
 
       this.report = obj['items'];
+
       this.report[0].student_name = this.studentDetails.name;
 
       this.reportIdFromUrl = this.report[0].id;
@@ -67,12 +82,31 @@ export class ViewReportComponent implements OnInit{
     }
   }
 
+
+//Edit Page routing function
   edit(reportId:string){
     this.router.navigate([`/edit-report/${this.studentDetails.id}/${this.reportIdFromUrl}`])
+  }
+
+  //Delete Report
+  async delete(report:ReportModel){
+    if(window.confirm("Are you sure?")){
+      try {
+        
+        //Delete it from server
+        await this.reportService.deleteReport(this.reportIdFromUrl);
+        
+      } catch (error) {
+        console.log(error);
+      }
+
+      this.location.back();
+    }
   }
 
   ngOnInit(){
     const studentId = this.route.snapshot.params['id'];
     this.loadReport(studentId);
+    this.loadReports();
   }
 }

@@ -1,4 +1,4 @@
-<div class="grid lg:grid-cols-3 gap-4">
+<div class="grid lg:grid-cols-3 gap-4" *ngIf="report?.length; else elseBlock">
   <div class="col-span-3 lg:col-span-2">
 
     <tui-island>
@@ -85,7 +85,7 @@
 
           <div class="w-full mx-auto mt-2">
             <button appearance="custom" tuiButton type="button" size="s" class="w-full delete-bg-button" icon="tuiIconTrash2"
-              (click)="edit(report.id)">
+              (click)="delete(report)">
               Delete Report
             </button>
           </div>
@@ -95,3 +95,8 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #elseBlock>
+  <app-no-data></app-no-data>
+</ng-template>

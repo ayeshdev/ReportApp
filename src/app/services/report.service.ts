@@ -11,6 +11,14 @@ export class ReportService {
 
   report!:ReportModel;
 
+  async getReports():Promise<ReportModel[]>{
+    const pb = new PocketBase(environment.baseUrl);
+    const records:ReportModel[] = await pb.collection('reports').getFullList({
+      sort:'-created'
+    });
+    return records;
+  }
+
   async addReport(report:ReportModel){
 
     console.log(report);
@@ -35,6 +43,16 @@ export class ReportService {
   async updateBook(report:ReportModel){
     const pb = new PocketBase(environment.baseUrl);
     const response: ReportModel = await pb.collection('reports').update(report.id,report);
+    return response;
+  }
+
+  //Delete report
+  async deleteReport(reportId:string){
+
+    // console.log(reportId);
+    
+    const pb = new PocketBase(environment.baseUrl);
+    const response = await pb.collection('reports').delete(reportId);
     return response;
   }
   constructor() { }

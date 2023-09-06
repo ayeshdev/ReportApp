@@ -17,6 +17,9 @@ import { ViewReportComponent } from './components/view-report/view-report.compon
 import {TuiArcChartModule} from '@taiga-ui/addon-charts';
 import { TestComponent } from './components/test/test.component';
 import { SearchPipe } from './pipes/search.pipe';
+import { NoDataComponent } from './components/no-data/no-data.component';
+import {TuiBlockStatusModule} from '@taiga-ui/layout';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { SearchPipe } from './pipes/search.pipe';
     ViewReportComponent,
     TestComponent,
     SearchPipe,
+    NoDataComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +52,7 @@ import { SearchPipe } from './pipes/search.pipe';
       TuiInputCountModule,
       TuiTagModule,
       FormsModule,
+      TuiBlockStatusModule,
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]
