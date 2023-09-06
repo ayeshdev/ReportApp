@@ -9,19 +9,20 @@ import { AppComponent } from './app.component';
 import { StudentsComponent } from './components/students/students.component';
 
 // taiga UI
-import {TuiTabsModule,TuiIslandModule,TuiInputModule,TuiInputNumberModule} from '@taiga-ui/kit';
+import {TuiTabsModule,TuiIslandModule,TuiInputModule,TuiInputNumberModule,TuiInputCountModule,TuiTagModule} from '@taiga-ui/kit';
 import { HomeComponent } from './components/home/home.component';
 import {TuiTableModule} from '@taiga-ui/addon-table';
-import { ReportComponent } from './components/report/report.component';
 import { AddReportComponent } from './components/add-report/add-report.component';
+import { ViewReportComponent } from './components/view-report/view-report.component';
+import {TuiArcChartModule} from '@taiga-ui/addon-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     StudentsComponent,
     HomeComponent,
-    ReportComponent,
     AddReportComponent,
+    ViewReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +39,9 @@ import { AddReportComponent } from './components/add-report/add-report.component
       ReactiveFormsModule,
       TuiTextfieldControllerModule,
       TuiInputNumberModule,
+      TuiArcChartModule,
+      TuiInputCountModule,
+      TuiTagModule,
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]

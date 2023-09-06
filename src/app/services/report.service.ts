@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import PocketBase from 'PocketBase';
 import { ReportModel } from 'src/models/report.model';
@@ -9,6 +9,8 @@ import { ReportModel } from 'src/models/report.model';
 })
 export class ReportService {
 
+  report!:ReportModel;
+
   async addReport(report:ReportModel){
 
     console.log(report);
@@ -18,5 +20,10 @@ export class ReportService {
     return response;
   }
 
+  async getReport(studentId:string){
+    const pb = new PocketBase(environment.baseUrl);
+    const resultList = await pb.collection('reports').getList(1,50,{filter:`student_id='${studentId}'`});
+    return resultList;
+  }
   constructor() { }
 }
