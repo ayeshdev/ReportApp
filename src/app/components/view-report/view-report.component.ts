@@ -45,7 +45,7 @@ export class ViewReportComponent implements OnInit {
     this.loader = true;
     setTimeout(() => {
       this.loader = false;
-    }, 1000);
+    }, 800);
   }
 
 
@@ -135,19 +135,6 @@ export class ViewReportComponent implements OnInit {
         }
       }
       );
-
-    // if (window.confirm("Are you sure?")) {
-    //   try {
-
-    //     //Delete it from server
-    //     await this.reportService.deleteReport(this.reportIdFromUrl);
-
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-
-    //   this.location.back();
-    // }
   }
 
   ngOnInit() {

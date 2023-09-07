@@ -16,6 +16,8 @@ import { TuiDialogService } from '@taiga-ui/core';
 })
 export class AddReportComponent implements OnInit {
 
+  reportIdByStudent: any;
+
   constructor(private location: Location, @Inject(TuiDialogService) private readonly dialogs: TuiDialogService) { }
 
   formBuilder = inject(FormBuilder);
@@ -27,16 +29,18 @@ export class AddReportComponent implements OnInit {
   message: string = "";
   action = "Add";
 
+  dialogMessage:string = "";
+
   //Dialog Box
   showDialog(): void {
     this.dialogs.open(
-        '<div><strong>Report Successfully Added!</strong></div>',
-        { label: 'Success', size: 's' },
-      ).subscribe({
-        complete:()=>{          
-          this.location.back();
-        }
-      });
+      this.dialogMessage,
+      { label: 'Success', size: 's' },
+    ).subscribe({
+      complete: () => {
+        this.location.back();
+      }
+    });
   }
 
 
@@ -58,21 +62,44 @@ export class AddReportComponent implements OnInit {
   // Add Report
   private async addReport() {
 
-    try {
-      this.message = "pending";
-      const report = this.reportForm.value as ReportModel;
-      report.student_id = this.route.snapshot.params['id'];
-      await this.reportService.addReport(report);
+    this.reportIdByStudent =await this.reportService.getReport(this.route.snapshot.params['id']);
+    
+      delete this.reportIdByStudent['page'];
+      delete this.reportIdByStudent['perPage'];
+      delete this.reportIdByStudent['totalItems'];
+      delete this.reportIdByStudent['totalPages'];
+
+      const obj = Object.assign({}, this.reportIdByStudent);
+      Object.assign([], obj)
+      Object.assign({}, obj)
+
+      this.reportIdByStudent = obj['items'];
+
+    if(this.reportIdByStudent[0] !=null ){
+
+      this.dialogMessage = '<div><strong>Report is already exist. Can\'t add a new one.</strong></div>';
 
       this.showDialog();
-      this.message = "Successfully Added!";
+      this.message = "Unsuccessful!";
       this.reportForm.reset();
-
-      
-    } catch (error) {
-      console.log(error);
-      this.message = "Something went wrong";
-    }
+    }else{
+      try {
+        this.message = "pending";
+        const report = this.reportForm.value as ReportModel;
+        report.student_id = this.route.snapshot.params['id'];
+        await this.reportService.addReport(report);
+  
+        this.dialogMessage = '<div><strong>Report Successfully Added!</strong></div>';
+        this.showDialog();
+        this.message = "Successfully Added!";
+        this.reportForm.reset();
+  
+  
+      } catch (error) {
+        console.log(error);
+        this.message = "Something went wrong";
+      }
+    } 
   }
 
 
