@@ -30,12 +30,13 @@ export class AddReportComponent implements OnInit {
   action = "Add";
 
   dialogMessage:string = "";
+  labelMessage:string = "";
 
   //Dialog Box
   showDialog(): void {
     this.dialogs.open(
       this.dialogMessage,
-      { label: 'Success', size: 's' },
+      { label: this.labelMessage , size: 's' },
     ).subscribe({
       complete: () => {
         this.location.back();
@@ -78,6 +79,7 @@ export class AddReportComponent implements OnInit {
     if(this.reportIdByStudent[0] !=null ){
 
       this.dialogMessage = '<div><strong>Report is already exist. Can\'t add a new one.</strong></div>';
+      this.labelMessage = 'Failed!';
 
       this.showDialog();
       this.message = "Unsuccessful!";
@@ -90,6 +92,8 @@ export class AddReportComponent implements OnInit {
         await this.reportService.addReport(report);
   
         this.dialogMessage = '<div><strong>Report Successfully Added!</strong></div>';
+        this.labelMessage = 'Success!';
+
         this.showDialog();
         this.message = "Successfully Added!";
         this.reportForm.reset();
