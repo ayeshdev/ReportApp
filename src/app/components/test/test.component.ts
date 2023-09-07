@@ -1,39 +1,37 @@
-import { Component } from '@angular/core';
-import { debounceTime } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
+import { TUI_PROMPT, TuiPromptData } from '@taiga-ui/kit';
+import { switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
-  styleUrls: ['./test.component.less']
+  styleUrls: ['./test.component.less'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestComponent {
 
-data = [
-  {id:1, name:"Angular"},
-  {id:2, name:"React"},
-  {id:3, name:"Vue"},
-  {id:4, name:"Bootstrap"},
-  {id:5, name:"Foundation"},
-]
+  constructor(
+    @Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
+    @Inject(TuiAlertService) private readonly alerts: TuiAlertService,
+  ) { }
 
+  onClick(): void {
+    const data: TuiPromptData = {
+      content:
+        'This is <code>PolymorpheusContent</code> so it can be template too!',
+      yes: 'That is great!',
+      no: 'Who cares?',
+    };
 
-searchText = '';
-
-  timer!: any;
-  searchControl!: any;
-
-  getData() {
-    this.searchControl.valueChanges.pipe(
-      debounceTime(1000)
-    ).subscribe(console.log)
+    this.dialogs
+      .open<boolean>(TUI_PROMPT, {
+        label: 'Do you like Taiga UI?',
+        size: 's',
+        data,
+      })
+      .pipe(switchMap(response => this.alerts.open(String(response))))
+      .subscribe();
   }
-
-  sendData(val: any) {
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      console.log(val.target.value);
-    }, 2000)
-  }
-
-
 }

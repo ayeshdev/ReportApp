@@ -5,6 +5,9 @@ import { StudentService } from 'src/app/services/student.service';
 import { ReportModel } from 'src/models/report.model';
 import { Location } from '@angular/common';
 import { TUI_IS_E2E } from '@taiga-ui/cdk';
+import { TUI_PROMPT, TuiPromptData } from '@taiga-ui/kit';
+import { switchMap } from 'rxjs/operators';
+import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-view-report',
@@ -14,7 +17,8 @@ import { TUI_IS_E2E } from '@taiga-ui/cdk';
 
 export class ViewReportComponent implements OnInit {
 
-  constructor(private location: Location, @Inject(TUI_IS_E2E) private readonly isE2E: boolean) { }
+  constructor(private location: Location, @Inject(TUI_IS_E2E) private readonly isE2E: boolean, @Inject(TuiDialogService) private readonly dialogs: TuiDialogService,
+    @Inject(TuiAlertService) private readonly alerts: TuiAlertService,) { }
 
   activeItemIndex = NaN;
 
@@ -105,18 +109,45 @@ export class ViewReportComponent implements OnInit {
 
   //Delete Report
   async delete(report: ReportModel) {
-    if (window.confirm("Are you sure?")) {
-      try {
 
-        //Delete it from server
-        await this.reportService.deleteReport(this.reportIdFromUrl);
+    const data: TuiPromptData = {
+      content:
+        'You can\'t undone this action!',
+      yes: 'Delete',
+      no: 'Cancel',
+    };
 
-      } catch (error) {
-        console.log(error);
+    this.dialogs
+      .open<boolean>(TUI_PROMPT, {
+        
+        label: `Do you want to delete ${this.studentDetails.name}'s report?`,
+        size: 's',
+        data,
+      }).subscribe(response => {
+        if (response == true) {
+          try {
+            //Delete it from server
+            this.reportService.deleteReport(this.reportIdFromUrl);
+          } catch (error) {
+            console.log(error);
+          }
+          this.location.back();
+        }
       }
+      );
 
-      this.location.back();
-    }
+    // if (window.confirm("Are you sure?")) {
+    //   try {
+
+    //     //Delete it from server
+    //     await this.reportService.deleteReport(this.reportIdFromUrl);
+
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+
+    //   this.location.back();
+    // }
   }
 
   ngOnInit() {

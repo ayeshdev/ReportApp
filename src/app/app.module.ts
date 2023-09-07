@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { StudentsComponent } from './components/students/students.component';
 
 // taiga UI
-import {TuiTabsModule,TuiIslandModule,TuiInputModule,TuiInputNumberModule,TuiInputCountModule,TuiTagModule,TuiProgressModule} from '@taiga-ui/kit';
+import {TuiTabsModule,TuiIslandModule,TuiInputModule,TuiInputNumberModule,TuiInputCountModule,TuiTagModule,TuiProgressModule,} from '@taiga-ui/kit';
 import { HomeComponent } from './components/home/home.component';
 import {TuiTableModule} from '@taiga-ui/addon-table';
 import { AddReportComponent } from './components/add-report/add-report.component';
