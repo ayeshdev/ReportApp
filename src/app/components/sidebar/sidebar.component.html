@@ -1,0 +1,9 @@
+<tui-island class="h-screen">
+  <h3 class="tui-island__title">SRMS</h3>
+  <section class="content">
+    <nav tuiTabs vertical="left" class="left" [(activeItemIndex)]="sideBarService.activeItemIndex">
+      <button tuiTab routerLink="/">Dashboard</button>
+      <button tuiTab routerLink="/students">Students</button>
+    </nav>
+  </section>
+</tui-island>

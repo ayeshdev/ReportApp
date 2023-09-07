@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { StudentService } from 'src/app/services/student.service';
+import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
   selector: 'app-students',
@@ -9,6 +10,7 @@ import { StudentService } from 'src/app/services/student.service';
 export class StudentsComponent implements OnInit{
 
   studentService = inject(StudentService);
+  sideBarService = inject(SidebarService);
   students !: any;
 
   searchText = "";
@@ -22,7 +24,11 @@ export class StudentsComponent implements OnInit{
     }
   }
 
+  //sidebar load
+
+
   ngOnInit(){    
     this.loadStudents();
+    this.sideBarService.getUrlText("students");
   }
 }

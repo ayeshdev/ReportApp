@@ -1,5 +1,5 @@
 import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
-import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER,TuiButtonModule,TuiTextfieldControllerModule, TuiLoaderModule } from "@taiga-ui/core";
+import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER,TuiButtonModule,TuiTextfieldControllerModule, TuiLoaderModule,tuiSvgOptionsProvider } from "@taiga-ui/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,8 +19,16 @@ import { TestComponent } from './components/test/test.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import {TuiBlockStatusModule} from '@taiga-ui/layout';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { TuiMobileTabsModule } from "@taiga-ui/addon-mobile";
+
+// taiga dialog box
+// import {ALL_TAIGA_UI_MODULES} from './@stackblitz/all-taiga-modules';
+
 
 @NgModule({
+  
   declarations: [
     AppComponent,
     StudentsComponent,
@@ -30,6 +38,8 @@ import {TuiBlockStatusModule} from '@taiga-ui/layout';
     TestComponent,
     SearchPipe,
     NoDataComponent,
+    SidebarComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +63,9 @@ import {TuiBlockStatusModule} from '@taiga-ui/layout';
       TuiBlockStatusModule,
       TuiLoaderModule,
       TuiProgressModule,
+      TuiRootModule,
+      TuiDialogModule,
+      TuiMobileTabsModule,
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]

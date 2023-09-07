@@ -1,55 +1,73 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ReportService } from 'src/app/services/report.service';
 import { StudentService } from 'src/app/services/student.service';
 import { ReportModel } from 'src/models/report.model';
+import { TuiDialogService } from '@taiga-ui/core';
+
 
 @Component({
   selector: 'app-add-report',
   templateUrl: './add-report.component.html',
   styleUrls: ['./add-report.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddReportComponent implements OnInit{
+export class AddReportComponent implements OnInit {
 
-  constructor(private location:Location){}
+  constructor(private location: Location, @Inject(TuiDialogService) private readonly dialogs: TuiDialogService) { }
 
   formBuilder = inject(FormBuilder);
   studentService = inject(StudentService);
   reportService = inject(ReportService);
   route = inject(ActivatedRoute);
-  studentDetails!:any;
+  studentDetails!: any;
   reportForm !: FormGroup;
-  message:string = "";
+  message: string = "";
   action = "Add";
+
+  //Dialog Box
+  showDialog(): void {
+    this.dialogs.open(
+        '<div><strong>Report Successfully Added!</strong></div>',
+        { label: 'Success', size: 's' },
+      ).subscribe({
+        complete:()=>{          
+          this.location.back();
+        }
+      });
+  }
 
 
   //Get Contollers
-  get getControls(){
+  get getControls() {
     return this.reportForm.controls;
   }
 
 
   //add report call method
-  async onPost(){
-    if(this.action == "Add"){
+  async onPost() {
+    if (this.action == "Add") {
       await this.addReport();
-    }else{
+    } else {
       this.updateReport();
     }
   }
 
   // Add Report
-  private async addReport(){
+  private async addReport() {
+
     try {
       this.message = "pending";
       const report = this.reportForm.value as ReportModel;
       report.student_id = this.route.snapshot.params['id'];
       await this.reportService.addReport(report);
+
+      this.showDialog();
       this.message = "Successfully Added!";
       this.reportForm.reset();
-      this.location.back();
+
       
     } catch (error) {
       console.log(error);
@@ -59,7 +77,7 @@ export class AddReportComponent implements OnInit{
 
 
   // Update Report
-  private async updateReport(){
+  private async updateReport() {
     try {
       this.message = "pending";
       const report = this.reportForm.value as ReportModel;
@@ -73,20 +91,20 @@ export class AddReportComponent implements OnInit{
   }
 
 
-  private async loadStudent(studentId:string){
+  private async loadStudent(studentId: string) {
     try {
-      this.studentDetails = await this.studentService.getStudent(studentId);  
+      this.studentDetails = await this.studentService.getStudent(studentId);
     } catch (error) {
       console.log(error);
     }
   }
 
 
-  private async loadEditForm(reportId:string){
+  private async loadEditForm(reportId: string) {
     try {
-      const reportToUpdate = await this.reportService.getReportFromReportId(reportId); 
+      const reportToUpdate = await this.reportService.getReportFromReportId(reportId);
 
-      if(reportToUpdate){
+      if (reportToUpdate) {
         this.reportForm.patchValue(reportToUpdate);
       }
     } catch (error) {
@@ -95,27 +113,27 @@ export class AddReportComponent implements OnInit{
   }
 
 
-  ngOnInit(){
+  ngOnInit() {
 
     this.reportForm = this.formBuilder.group({
-      'id':[''],
-      'maths':['',[Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3), Validators.max(100), Validators.min(0)]],
-      'science':['',[Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3), Validators.max(100), Validators.min(0)]],
-      'english':['',[Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3), Validators.max(100), Validators.min(0)]],
-      'student_id':[''],
+      'id': [''],
+      'maths': ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3), Validators.max(100), Validators.min(0)]],
+      'science': ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3), Validators.max(100), Validators.min(0)]],
+      'english': ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(3), Validators.max(100), Validators.min(0)]],
+      'student_id': [''],
     })
-    
+
     const studentId = this.route.snapshot.params['id'];
     const reportId = this.route.snapshot.params['report_id'];
 
-    
+
 
     this.loadStudent(studentId)
 
-    if(reportId){
+    if (reportId) {
       this.action = "Edit";
       this.loadEditForm(reportId);
     }
-    
+
   }
 }

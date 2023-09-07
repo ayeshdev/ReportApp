@@ -1,13 +1,17 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import PocketBase from 'PocketBase';
 import { ReportModel } from 'src/models/report.model';
+
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
+
+  constructor() { }
 
   report!:ReportModel;
 
@@ -20,8 +24,6 @@ export class ReportService {
   }
 
   async addReport(report:ReportModel){
-
-    console.log(report);
     
     const pb = new PocketBase(environment.baseUrl);
     const response:ReportModel = await pb.collection('reports').create(report);
@@ -55,5 +57,4 @@ export class ReportService {
     const response = await pb.collection('reports').delete(reportId);
     return response;
   }
-  constructor() { }
 }

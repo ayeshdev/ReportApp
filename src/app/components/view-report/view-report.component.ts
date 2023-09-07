@@ -5,8 +5,6 @@ import { StudentService } from 'src/app/services/student.service';
 import { ReportModel } from 'src/models/report.model';
 import { Location } from '@angular/common';
 import { TUI_IS_E2E } from '@taiga-ui/cdk';
-import { of, timer } from 'rxjs';
-import { map, startWith, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-report',

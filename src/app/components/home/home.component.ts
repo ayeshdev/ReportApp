@@ -1,4 +1,5 @@
-import { Component,ChangeDetectionStrategy } from '@angular/core';
+import { Component,ChangeDetectionStrategy,OnInit, inject } from '@angular/core';
+import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
   selector: 'app-home',
@@ -6,6 +7,12 @@ import { Component,ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./home.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+
+  sideBarService = inject(SidebarService);
+
+  ngOnInit(){
+    this.sideBarService.getUrlText("home");
+  }
 
 }
