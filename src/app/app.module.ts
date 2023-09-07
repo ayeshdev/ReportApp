@@ -1,5 +1,5 @@
 import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
-import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER,TuiButtonModule,TuiTextfieldControllerModule } from "@taiga-ui/core";
+import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER,TuiButtonModule,TuiTextfieldControllerModule, TuiLoaderModule } from "@taiga-ui/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { StudentsComponent } from './components/students/students.component';
 
 // taiga UI
-import {TuiTabsModule,TuiIslandModule,TuiInputModule,TuiInputNumberModule,TuiInputCountModule,TuiTagModule} from '@taiga-ui/kit';
+import {TuiTabsModule,TuiIslandModule,TuiInputModule,TuiInputNumberModule,TuiInputCountModule,TuiTagModule,TuiProgressModule} from '@taiga-ui/kit';
 import { HomeComponent } from './components/home/home.component';
 import {TuiTableModule} from '@taiga-ui/addon-table';
 import { AddReportComponent } from './components/add-report/add-report.component';
@@ -19,7 +19,6 @@ import { TestComponent } from './components/test/test.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { NoDataComponent } from './components/no-data/no-data.component';
 import {TuiBlockStatusModule} from '@taiga-ui/layout';
-import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     TestComponent,
     SearchPipe,
     NoDataComponent,
-    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +51,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
       TuiTagModule,
       FormsModule,
       TuiBlockStatusModule,
+      TuiLoaderModule,
+      TuiProgressModule,
 ],
   providers: [{provide: TUI_SANITIZER, useClass: NgDompurifySanitizer}],
   bootstrap: [AppComponent]
