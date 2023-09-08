@@ -1,13 +1,57 @@
-<div class="flex flex-wrap mb-4">
+<!-- <div class="flex flex-wrap mb-4">
   <div class="w-full">
     <tui-island class="h-8">
 
-      <div class="flex flex-wrap ">
-        <div class="lg:w-1/5 pr-4 pl-4">
+      <div class="flex">
+        <div class="w-4/5">
           <p class="tui-text_h6 pt-1">{{navBarName}}</p>
         </div>
+
+        <div class="flex flex-wrap justify-end">
+        <div class="w-full">
+          <ng-container *ngIf="user$|async as user">
+            <ng-container *ngIf="user && user.isValid">
+              <tui-root>
+                {{user.username}}
+                <button routerLink="/login" appearance="custom" (click)="logout()" style="cursor: pointer;" appearance="custom" tuiButton type="button" size="s" class="w-full delete-bg-button"
+                  icon="tuiIconTrash2" (click)="logout()">
+                  Logout
+                </button>
+              </tui-root>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+
       </div>
 
     </tui-island>
   </div>
-</div>
+</div> -->
+
+<tui-island class="h-8 mb-4">
+  <div class="flex flex-row">
+
+    <div class="basis-3/4">
+      <p class="tui-text_h6 pt-1">{{navBarName}}</p>
+    </div>
+
+    <ng-container *ngIf="user$|async as user">
+      <ng-container *ngIf="user && user.isValid">
+        <div class="flex justify-end gap-3">
+          <div class="basis-1/4"><p class="tui-text_body-m pt-1">{{user.username}}</p></div>
+          <div class="basis-1/4">
+            <tui-root>
+              <button routerLink="/login" appearance="custom" (click)="logout()" style="cursor: pointer;"
+                appearance="custom" tuiButton type="button" size="s" class="delete-bg-button" icon="tuiIconTrash2"
+                (click)="logout()">
+                Logout
+              </button>
+            </tui-root>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+  </div>
+</tui-island>

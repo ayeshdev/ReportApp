@@ -1,0 +1,46 @@
+<div class="flex flex-wrap my-40">
+  <div class="w-full md:w-2/3 pr-4 pl-4 lg:w-1/2 pr-4 pl-4 mx-auto">
+    <tui-island>
+      <div class="flex flex-wrap">
+
+        <tui-island class="w-full">
+          <div class="w-full">
+            <p class="tui-text_h3">Login</p>
+          </div>
+        </tui-island>
+
+
+        <div class="w-full mt-4">
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <p>Username :</p>
+            <tui-input formControlName="testValue" class="tui-space_top-2" tuiTextfieldSize="m"
+              [tuiTextfieldCleaner]="true" [tuiTextfieldLabelOutside]="true" formControlName="username">
+              Type an email
+              <input autocomplete="email" placeholder="mail@mail.com" tuiTextfield type="email" />
+            </tui-input>
+
+            <p class="mt-4">Password :</p>
+            <tui-input-password tuiTextfieldSize="m" class="tui-space_top-2" [tuiTextfieldLabelOutside]="true"
+              formControlName="password">
+              Type a password
+              <input placeholder="Make it secure!" tuiTextfield />
+            </tui-input-password>
+
+            <ng-container *ngIf="alert$ | async as alert">
+              <span [class]="alert.alertClass">{{alert.message}}</span>
+            </ng-container>
+
+            <tui-root>
+              <button appearance="whiteblock-active" class="w-full mt-4" size="m" tuiButton type="submit"
+                [disabled]="loginForm.invalid">
+                Login
+              </button>
+            </tui-root>
+          </form>
+        </div>
+
+      </div>
+
+    </tui-island>
+  </div>
+</div>

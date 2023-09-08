@@ -1,7 +1,8 @@
-import { Component, inject,HostListener } from '@angular/core';
+import { Component, inject, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SidebarService } from 'src/app/services/sidebar.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -11,31 +12,42 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 })
 export class SidebarComponent {
 
-  constructor(private location:Location){
- 
-  }
-  navBarName:string = "";
-  splittedUrlName:string = "";
+  constructor(private location: Location) {
 
+  }
+  navBarName: string = "";
+  splittedUrlName: string = "";
+
+
+  //services
   router = inject(Router);
   route = inject(ActivatedRoute);
   sideBarService = inject(SidebarService);
+  private authService = inject(AuthService);
 
 
-  urlName:string[] = [];
+  urlName: string[] = [];
+  
+  //field
+  user$ = this.authService.user$;
 
-  getUrl(){
+  getUrl() {
 
     this.urlName = this.location.path().split('/');
     this.location.path().split('/')
-    
+
     this.splittedUrlName = this.urlName[1];
     this.sideBarService.getUrlText(this.splittedUrlName);
 
   }
 
+  logout() {
+    this.authService.logout();
+    this.authService.updateUserSubject();
+  }
 
-  ngOnInit(){
+
+  ngOnInit() {
     this.getUrl();
   }
 }

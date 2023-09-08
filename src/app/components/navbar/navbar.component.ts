@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import {  ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,10 +15,16 @@ export class NavbarComponent implements OnInit{
   navBarName:string = "";
   splittedUrlName:string = "";
 
+
+  //services
   router = inject(Router);
   route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
 
   urlName:string[] = [];
+
+  //fields
+  user$ = this.authService.user$;
 
   getUrlText(){
 
@@ -34,7 +41,14 @@ export class NavbarComponent implements OnInit{
       this.navBarName = "Add Report";
     }else if(this.splittedUrlName == 'home'){
       this.navBarName = "Dashboard";
+    }else if(this.splittedUrlName == 'edit-report'){
+      this.navBarName = "Edit Report";
     }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.authService.updateUserSubject();
   }
 
   ngOnInit(){
