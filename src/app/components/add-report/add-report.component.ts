@@ -114,6 +114,12 @@ export class AddReportComponent implements OnInit {
       const report = this.reportForm.value as ReportModel;
       report.student_id = this.route.snapshot.params['student_id'];
       await this.reportService.updateBook(report);
+
+      this.dialogMessage = '<div><strong>The Report is Updated!</strong></div>';
+      this.labelMessage = 'Success!';
+
+      this.showDialog();
+
       this.message = "Successfully Updated!";
     } catch (error) {
       console.log(error);
